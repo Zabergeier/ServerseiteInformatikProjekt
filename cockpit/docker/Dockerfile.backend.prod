@@ -1,0 +1,44 @@
+# Use the official PHP image with Apache as the base image
+FROM php:8.2-apache
+
+# Set noninteractive frontend for apt
+ENV DEBIAN_FRONTEND=noninteractive
+
+WORKDIR /var/www/html
+
+# Install system dependencies, PHP extensions and enable Apache modules
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+       libpng-dev \
+       libjpeg-dev \
+       libfreetype6-dev \
+       libzip-dev \
+       zip \
+       unzip \
+       git \
+       curl \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
+    && docker-php-ext-install gd pdo pdo_mysql zip \
+    && a2enmod rewrite headers
+
+RUN rm -rf /var/lib/apt/lists/*
+
+
+
+# Copy application files
+COPY . .
+
+# Install Composer and project dependencies
+RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+    && composer install --no-interaction --prefer-dist --optimize-autoloader --no-dev || true
+
+# File permissions for Laravel
+RUN chown -R www-data:www-data storage bootstrap/cache || true
+
+# Expose HTTP port
+EXPOSE 80
+
+# Ensure no leftover PID
+RUN rm -f /var/run/apache2/apache2.pid || true
+
+CMD ["apache2-foreground"]

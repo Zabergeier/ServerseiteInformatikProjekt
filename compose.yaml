@@ -1,0 +1,60 @@
+services: 
+  laravel:
+    build:
+      context: ./cockpit
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./cockpit:/app
+      - /app/vendor
+      - /app/public/build
+      - /app/bootstrap/cache
+      - /app/storage/framework/views
+    depends_on:
+      - postgres
+    environment:
+      DATABASEURL: postgres://postgres:postgres@postgres:5432/postgres
+
+    networks:
+      - my_network
+
+  postgres:
+    image: postgres:18
+    container_name: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    networks:
+      - my_network
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    ports:
+      - "15432:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: test@example.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+    volumes:
+      - ./pgadmin-data:/var/lib/pgadmin
+
+networks: 
+  my_network:
+    driver: bridge
+  
+
+volumes:
+  pgdata:
+    driver: local
+ 
+
