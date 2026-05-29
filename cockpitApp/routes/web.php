@@ -13,6 +13,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::inertia('dashboard', 'dashboard')->name('dashboard');
     Route::get('/robots',[robotController::class,'index'])->name('robots.index');
     Route::get('/robots/create',[robotController::class,'create'])->name('robots.create');
+    Route::get('/robots/register',[robotController::class,'registerRobot'])->name('robots.register');
 });
 
 require __DIR__.'/settings.php';
