@@ -14,6 +14,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/robots',[robotController::class,'index'])->name('robots.index');
     Route::get('/robots/create',[robotController::class,'create'])->name('robots.create');
     Route::get('/robots/register',[robotController::class,'registerRobot'])->name('robots.register');
+     Route::get('/robots/{robot}',[robotController::class,'connectRobot'])->name('robots.connect');
 });
 
 require __DIR__.'/settings.php';
