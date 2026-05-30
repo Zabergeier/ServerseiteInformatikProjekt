@@ -5,6 +5,7 @@ import { route } from 'ziggy-js';
 import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import axios from 'axios';
 
 interface Robot{
     id:number,
@@ -14,16 +15,26 @@ interface Robot{
     user_id:string
 }
 
+interface User{
+    id:number,
+    name:string,
+    email:string
+}
 interface PageProps{
     
-    robots:Robot[]
+    robots:Robot[],
+    user: User,
 }
 
-export default function Index({robots}:PageProps) {
+export default function Index({robots,user}:PageProps) {
     const handleConnect = function(robot:Robot){
         route()
     }
+    const requestToken = function(user:User){
+        axios
+    }
 
+    
     const items = robots.map((robot)=>
         <Card className='m-4'>
             
@@ -45,6 +56,9 @@ export default function Index({robots}:PageProps) {
     return (
         <>
             <Head title="Robots" />
+
+            {requestToken(user)}
+
             <div className=" gap-4 overflow-x-auto rounded-xl p-4">
                 
                 <ScrollArea>
