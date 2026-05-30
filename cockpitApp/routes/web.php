@@ -17,7 +17,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/robots/create',[robotController::class,'create'])->name('robots.create');
     Route::get('/robots/register',[robotController::class,'registerRobot'])->name('robots.register');
     Route::get('/robots/{robot}',[robotController::class,'connectRobot'])->name('robots.connect');
-    Route::post('/mqtt/token',[mqttTokenController::class,'requestToken']) ->named('mqtt.token');
+    Route::post('/mqtt/token',[mqttTokenController::class,'requestToken']) ->name('mqtt.token');
 });
+
 
 require __DIR__.'/settings.php';

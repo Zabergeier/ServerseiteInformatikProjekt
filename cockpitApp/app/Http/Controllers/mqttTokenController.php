@@ -8,9 +8,10 @@ use App\Models\User;
 
 class mqttTokenController extends Controller
 {
-    public function requestToken(User $user){
-
-        $key = "secret"; //ich liebe Sicherheit 
+    public function requestToken(Request $request){
+        $user = $request->user();
+        
+        $key = "secretdalgtshfalkhglkadhfglkajhdfkgljfdakgjklafjdglkjsfdg"; //ich liebe Sicherheit 
         $acl = [
             [
                 "permit" => "allow",
@@ -32,10 +33,11 @@ class mqttTokenController extends Controller
             ],
             'acl'=> $acl, 
         ];
-
+        
         $jwt = JWT::encode($payload,$key,'HS256');
-
-        return [$jwt];
+        
+        
+        return ['token'=>$jwt];
 
     }
 

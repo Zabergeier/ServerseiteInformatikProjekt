@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 interface Robot{
     id:number,
@@ -27,16 +28,18 @@ interface PageProps{
 }
 
 export default function Index({robots,user}:PageProps) {
+    const [token,setToken] = useState<string | null>(null); // Was diesel typisierung soll keine Ahnung 
+
     const handleConnect = function(robot:Robot){
         route()
     }
-    const requestToken = function(user:User){
-        axios
-    }
-
+    
+    useEffect(()=>{
+        axios.post(route('mqtt.token')).then((result) => setToken(result.data.token)).catch(console.error);
+    },[])
     
     const items = robots.map((robot)=>
-        <Card className='m-4'>
+        <Card key={robot.id} className='m-4'>
             
             <CardHeader>
                 <CardTitle>{robot.nam}</CardTitle>
@@ -56,8 +59,9 @@ export default function Index({robots,user}:PageProps) {
     return (
         <>
             <Head title="Robots" />
-
-            {requestToken(user)}
+            <h1>{token}</h1>
+            
+            
 
             <div className=" gap-4 overflow-x-auto rounded-xl p-4">
                 
