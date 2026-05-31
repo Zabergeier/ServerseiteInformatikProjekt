@@ -29,7 +29,7 @@ class robotController extends Controller
         ]);
 
         $Robot = $request->user()->robots()->create($data);
-
+        
         return redirect()
         ->route('robots.index')
         ->with('success','Roboter registriert');
@@ -38,6 +38,7 @@ class robotController extends Controller
 
     public function activateCockpit(int $id){
         $roboter = Robot::findOrFail($id);
-        return Inertia::render('Robots/Cockpit',['roboter'=> $roboter]);
+        $user = $roboter -> user();
+        return Inertia::render('Robots/Cockpit',['user'=> $user,'roboter'=> $roboter]);
     }
 }
