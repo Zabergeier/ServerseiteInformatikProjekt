@@ -11,7 +11,7 @@ class mqttTokenController extends Controller
     public function requestToken(Request $request){
         $user = $request->user();
         
-        $key = "secretdalgtshfalkhglkadhfglkajhdfkgljfdakgjklafjdglkjsfdg"; //ich liebe Sicherheit 
+        $key = config('mqtt.mqtt_secret');
         $acl = [
             [
                 "permit" => "allow",

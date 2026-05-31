@@ -36,7 +36,8 @@ class robotController extends Controller
 
     }
 
-    public function connectRobot(Robot $robot){
-        
+    public function activateCockpit(int $id){
+        $roboter = Robot::findOrFail($id);
+        return Inertia::render('Robots/Cockpit',['roboter'=> $roboter]);
     }
 }

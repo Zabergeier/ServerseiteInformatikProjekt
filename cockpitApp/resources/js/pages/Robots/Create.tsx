@@ -44,7 +44,7 @@ Index.layout = {
     breadcrumbs: [
         {
             title: 'Register Robot',
-            href: '/robots',
+            href: '/robots/create',
         },
     ],
 };

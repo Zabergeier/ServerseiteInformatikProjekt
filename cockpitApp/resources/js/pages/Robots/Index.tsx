@@ -30,9 +30,7 @@ interface PageProps{
 export default function Index({robots,user}:PageProps) {
     const [token,setToken] = useState<string | null>(null); // Was diesel typisierung soll keine Ahnung 
 
-    const handleConnect = function(robot:Robot){
-        route()
-    }
+    
     
     useEffect(()=>{
         axios.post(route('mqtt.token')).then((result) => setToken(result.data.token)).catch(console.error);
@@ -45,7 +43,7 @@ export default function Index({robots,user}:PageProps) {
                 <CardTitle>{robot.nam}</CardTitle>
                 <CardDescription>{robot.adr}</CardDescription>
                 <CardAction>
-                    <Button variant='outline' onClick={() => handleConnect(robot)}>Connect</Button>
+                    <Link href={route('robots.cockpit',robot.id)}><Button variant='outline'>Connect</Button></Link>
                 </CardAction>
 
             </CardHeader>
@@ -60,8 +58,8 @@ export default function Index({robots,user}:PageProps) {
         <>
             <Head title="Robots" />
             <h1>{token}</h1>
-            
-            
+            <h1>{String(import.meta.env.VITE_MQTT_URL)}</h1>
+           
 
             <div className=" gap-4 overflow-x-auto rounded-xl p-4">
                 
