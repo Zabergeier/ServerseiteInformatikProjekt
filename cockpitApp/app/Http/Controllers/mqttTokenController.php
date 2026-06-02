@@ -59,7 +59,7 @@ class mqttTokenController extends Controller
                 "permission" => "allow",
                 "username" => $user->nam,
                 "action" => "subscribe",
-                "topics" => ["user/". $user->user_id . "/roboter/" . $user -> getKey()],
+                "topics" => ["user/". $user->user_id . "/roboter/" . $user -> getKey() . "#"],
             ]
         ];
         $payload = [
