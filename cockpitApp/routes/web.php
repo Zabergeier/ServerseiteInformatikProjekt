@@ -17,7 +17,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/robots/create',[robotController::class,'create'])->name('robots.create');
     Route::get('/robots/register',[robotController::class,'registerRobot'])->name('robots.register');
     Route::get('/robots/{robot}',[robotController::class,'activateCockpit'])->name('robots.cockpit');
-    Route::post('/mqtt/token',[mqttTokenController::class,'requestToken']) ->name('mqtt.token');
+    Route::post('/mqtt/token',[mqttTokenController::class,'issueTokenForBrowserClient']) ->name('mqtt.token');
 });
 
 

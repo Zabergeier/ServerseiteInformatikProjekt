@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Robot;
 use App\Models\User;
 
 return [
@@ -42,6 +43,10 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+        'robot' => [
+            'driver' => 'session',
+            'provider' => 'robots'
+        ]
     ],
 
     /*
@@ -66,6 +71,11 @@ return [
             'driver' => 'eloquent',
             'model' => env('AUTH_MODEL', User::class),
         ],
+        'robots' => [
+
+        'driver' => 'eloquent',
+        'model' => Robot::class,
+        ]
 
         // 'users' => [
         //     'driver' => 'database',
