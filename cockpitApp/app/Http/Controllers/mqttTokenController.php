@@ -6,21 +6,23 @@ use Firebase\JWT\JWT;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Laravel\Pail\ValueObjects\Origin\Console;
+use App\Models\Robot;
+use Number;
 
 class mqttTokenController extends Controller
 {
     public function requestToken(Request $request){
         $user = $request->user();
         
+        
         $key = '65fc37f81ad60c9c72fd7ccd227ab6dd50c1a287d1b5a1070f36714395ea2e35';//config('mqtt.mqtt_secret');
         
         $acl = [
             [
                 "permission" => "allow",
-                
+                "username" => $user->name,
                 "action" => "publish",
-                "topics" => ["test/#"],
-                
+                "topics" => ["user/". $user->getKey() . "/roboter/#"],
             ]
         ];
         $payload = [

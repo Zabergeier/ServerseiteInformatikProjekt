@@ -11,6 +11,11 @@ import { useEffect, useState } from 'react';
 import {jwtDecode} from 'jwt-decode';
 import mqtt, { MqttClient } from "mqtt";
 import { Console, error } from 'console';
+import { Toaster } from '@/components/ui/sonner';
+import { toast } from 'sonner';
+import { AlertDialog, } from 'radix-ui';
+import { HoverCardTrigger,HoverCard, HoverCardContent  } from '@/components/ui/hover-card';
+
 
 interface Robot{
     id:number,
@@ -28,11 +33,12 @@ interface User{
 interface PageProps{
     robot:Robot
     user: User
+    psw:string | undefined
 }
 
 
 
-export default function Index({user,robot}:PageProps) {
+export default function Index({user,robot,psw}:PageProps) {
     const [token,setToken] = useState<string | undefined>(undefined);
     const [client,setClient] = useState<MqttClient | null>(null);
     const [mRight,setmRight] = useState<number>(75);
@@ -40,6 +46,28 @@ export default function Index({user,robot}:PageProps) {
 
     const emqx_url = "wss://"+String(import.meta.env.VITE_MQTT_URL)+ ":8084/mqtt";
     
+    const showPsw = () =>{
+        console.log(psw);
+       if(psw != null){
+        return(
+            
+        <HoverCard openDelay={10} closeDelay={100}>
+        <HoverCardTrigger asChild>
+            <Button variant="link">Hover Here To Show Password</Button>
+        </HoverCardTrigger>
+        <HoverCardContent className="flex w-64 flex-col gap-0.5">
+            <div className="font-semibold">Passwort: {psw}</div>
+            <div>Name: {"robot_" + robot.id}</div>
+            
+        </HoverCardContent>
+      
+    </HoverCard>)
+       }
+       return (<>no psw</>)
+    }
+
+
+
     const issueToken = async () =>{
         if(token != undefined ){
             const decodedToken = jwtDecode(token);
@@ -71,15 +99,22 @@ export default function Index({user,robot}:PageProps) {
             clientId: clientId,
             username: username
         })
-        
+
+        client?.once("connect",()=>toast("Client successfull connected"));
+        client?.once("error",(err)=>{console.log('Connected Client not success');console.log(err.message);});
+
         setClient(client);
     }
 
-    client?.on("connect",()=>console.log('Connected Client success'));
-    client?.on("error",(err)=>{console.log('Connected Client not success');console.log(err.message);});
+
 
     function publishData(){
-        const topic = "test";
+        console.log(robot.id);
+        console.log(user.id);
+        
+        const topic = "user/" + user.id + "/robot/" + robot.id ;
+        
+        
         const payload = JSON.stringify({motorRight:mRight , motorLeft:mLeft});
         const qos = 0;
         client?.publish(topic,payload,{qos},(error)=>{console.log(error?.message)});   
@@ -88,13 +123,19 @@ export default function Index({user,robot}:PageProps) {
     
     
     useEffect(()=>{
+        
+
         issueToken().then((t)=>{setToken(t);loadClient(t)});
         
+
     },[])
     
     return (
         <>
+        
             <Head title="Cockpit" />
+            <Toaster/>
+            {showPsw()}
             <div className="h-auto p-4 m-4 min-h-[250vh] rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border grid grid-cols-6 place-items-center">
             
                 <div>

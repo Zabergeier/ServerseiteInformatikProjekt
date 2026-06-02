@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 
-#[Fillable(['nam', 'adr', 'bez'])]
+#[Fillable(['psw', 'bez','nam'])]
+
 class Robot extends Model
 {
     

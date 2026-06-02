@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('robots', function (Blueprint $table) {
             $table->id()->autoIncrement();
+            $table->string('psw');
             $table->string('nam');
-            $table->ipAddress('adr');
             $table->string('bez');
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
             $table->timestamps();

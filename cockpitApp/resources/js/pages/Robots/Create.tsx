@@ -19,16 +19,12 @@ export default function Index() {
                     <Input placeholder='Robotername' name='nam' type='text' />
                 </div>
                 <div className='gap-1.5'>
-                    <label htmlFor="Adress">Adresse des Roboters</label>
-                    <Input type="text" minLength={7} maxLength={15} pattern="^(?>(\d|[1-9]\d{2}|1\d\d|2[0-4]\d|25[0-5])\.){3}(?1)$" placeholder='127.0.0.1' name='adr'/>
-                </div>
-                <div className='gap-1.5'>
-                    <label htmlFor="Beschreibung">Die Beschreibung</label>
+                    <label htmlFor="Beschreibung">Beschreibung</label>
                     <Textarea placeholder='Beschreibung' name='bez' ></Textarea>
                     
                 </div>
                 
-                <Button type='submit' >Register</Button>
+                <Button type='submit'>Register</Button>
                 
 
                 

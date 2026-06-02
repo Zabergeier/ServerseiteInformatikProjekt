@@ -5,7 +5,9 @@ use App\Models\Robot;
 use App\Models\User;
 use Illuminate\Container\Attributes\CurrentUser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Inertia;
+use Mockery\Undefined;
 use phpDocumentor\Reflection\Types\Nullable;
 use SpomkyLabs\Pki\X509\GeneralName\IPAddress;
 
@@ -21,24 +23,35 @@ class robotController extends Controller
         return Inertia::render('Robots/Create');
     }
     public function registerRobot(Request $request){
+        
         $data = $request->validate([
             'nam'=>['string','max:100','required'],
-            'adr'=>['string','required'],
             'bez'=>['string','required'],
 
         ]);
 
-        $Robot = $request->user()->robots()->create($data);
         
-        return redirect()
-        ->route('robots.index')
-        ->with('success','Roboter registriert');
+        $psw = bin2hex(random_bytes(10));
+        
+        
+        $data['psw'] =  Hash::make($psw);
+        
+        $Robot = $request->user()->robots()->create($data);
+       
 
+        return Inertia::render('Robots/Cockpit',['robot'=> $Robot,'user'=> $Robot->user(),'psw' => $psw]);
+        
+        
+        
+        
+        
     }
 
-    public function activateCockpit(int $id){
-        $roboter = Robot::findOrFail($id);
-        $user = $roboter -> user();
-        return Inertia::render('Robots/Cockpit',['user'=> $user,'roboter'=> $roboter]);
+    public function activateCockpit(Request $request, Robot $robot){
+        return Inertia::render('Robots/Cockpit',[
+        'user'=> $request-> user(),
+        'robot'=> $robot,
+        'psw'=> null
+        ]);
     }
 }

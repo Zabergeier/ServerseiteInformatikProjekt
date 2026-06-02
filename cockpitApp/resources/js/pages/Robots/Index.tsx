@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 interface Robot{
     id:number,
     nam:string,
-    adr:string,
+    psw:string,
     bez:string,
     user_id:string
 }
@@ -34,7 +34,7 @@ export default function Index({robots,user}:PageProps) {
             
             <CardHeader>
                 <CardTitle>{robot.nam}</CardTitle>
-                <CardDescription>{robot.adr}</CardDescription>
+                <CardDescription>{"robot_"+robot.id}</CardDescription>
                 <CardAction>
                     <Link href={route('robots.cockpit',robot.id)}><Button variant='outline'>Connect</Button></Link>
                 </CardAction>
