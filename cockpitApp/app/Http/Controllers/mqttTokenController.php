@@ -16,7 +16,7 @@ class mqttTokenController extends Controller
         
         
         $key = config('mqtt.mqtt_secret');
-        
+        error_log($user->id);
         $acl = [
             [
                 "permission" => "allow",
@@ -26,9 +26,6 @@ class mqttTokenController extends Controller
             ]
         ];
         $payload = [
-            
-            'sub' => $user->name,
-            'clientid' => 'emqx_react_1',
             'iss' => 'EMQX Broker',
             'aud' => 'laravel',
             'iat' => time(),
@@ -36,12 +33,13 @@ class mqttTokenController extends Controller
             'exp' => time() + 3600, // Token ist 1 Stunde gült
             'client_attrs' => [
                 'role' => 'client',
-                'sn' => 'emqx_react_1',
+                'sn' => "emqx_2" . $user -> getKey(),
             ],
             'acl'=> $acl, 
         ];
         
         $jwt = JWT::encode($payload,$key,'HS256');
+        
         
         
         return ['token'=>$jwt];
@@ -63,9 +61,6 @@ class mqttTokenController extends Controller
             ]
         ];
         $payload = [
-            
-            'sub' => $user->nam,
-            'clientid' => 'emqx_react_1',
             'iss' => 'EMQX Broker',
             'aud' => 'laravel',
             'iat' => time(),
@@ -73,7 +68,7 @@ class mqttTokenController extends Controller
             'exp' => time() + 3600, // Token ist 1 Stunde gült
             'client_attrs' => [
                 'role' => 'client',
-                'sn' => 'emqx_react_1',
+                'sn' => 'emqx_' . $user->getKey(),
             ],
             'acl'=> $acl, 
         ];
