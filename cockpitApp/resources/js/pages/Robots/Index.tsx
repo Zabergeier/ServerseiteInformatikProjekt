@@ -71,8 +71,8 @@ export default function Index({robots,user}:PageProps) {
 Index.layout = {
     breadcrumbs: [
         {
-            title: 'Index',
-            href: '/index',
+            title: 'Robots',
+            href: '/robots',
         },
     ],
 };

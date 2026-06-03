@@ -134,7 +134,7 @@ export default function Index({user,robot,psw}:PageProps) {
         <>
         
             <Head title="Cockpit" />
-            <Toaster/>
+            
             {showPsw()}
             <div className="h-auto p-4 m-4 min-h-[250vh] rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border grid grid-cols-6 place-items-center">
             

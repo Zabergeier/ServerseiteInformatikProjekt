@@ -1,4 +1,4 @@
-import { Link } from '@inertiajs/react';
+import { Link, router } from '@inertiajs/react';
 import { BookOpen, FolderGit2, LayoutGrid, Video} from 'lucide-react';
 import AppLogo from '@/components/app-logo';
 import { NavFooter } from '@/components/nav-footer';
@@ -13,9 +13,10 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
-import { dashboard } from '@/routes';
+import { dashboard,  } from '@/routes';
 import type { NavItem } from '@/types';
-import Robots from '@/pages/Robots';
+import { route } from 'ziggy-js';
+
 
 const mainNavItems: NavItem[] = [
     {
@@ -25,7 +26,7 @@ const mainNavItems: NavItem[] = [
     },
     {
         title: 'My Robots',
-        href: '/robots',
+        href: route('robots.index'),
         icon: Video,
     },
 ];

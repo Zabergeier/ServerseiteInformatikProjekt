@@ -1,4 +1,4 @@
-import { createInertiaApp } from '@inertiajs/react';
+import { createInertiaApp, ResolvedComponent } from '@inertiajs/react';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import { initializeTheme } from '@/hooks/use-appearance';
@@ -8,8 +8,15 @@ import SettingsLayout from '@/layouts/settings/layout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
+
+
 createInertiaApp({
+    
     title: (title) => (title ? `${title} - ${appName}` : appName),
+    resolve: (name) => {
+        const pages = import.meta.glob<ResolvedComponent>('./pages/**/*.tsx');
+        return pages[`./pages/${name}.tsx`]();
+    },
     layout: (name) => {
         switch (true) {
             case name === 'welcome':
@@ -18,10 +25,16 @@ createInertiaApp({
                 return AuthLayout;
             case name.startsWith('settings/'):
                 return [AppLayout, SettingsLayout];
+            case name.startsWith('robots/'):
+                return AppLayout;
             default:
                 return AppLayout;
+
         }
     },
+
+    
+
     strictMode: true,
     withApp(app) {
         return (
