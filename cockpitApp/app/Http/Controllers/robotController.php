@@ -16,6 +16,39 @@ use function Illuminate\Support\weeks;
 
 class robotController extends Controller
 {
+    public function edit(Robot $robot){
+        return Inertia::render('Robots/Edit',[
+        'robot'=> $robot,
+        ]);
+    }
+
+    public function saveEdit(Request $request,Robot $robot){
+        $data = $request->validate([
+            'nam'=>['string','max:100','required'],
+            'bez'=>['string','required'],
+
+        ]);
+        $robot->update($data);
+        return Inertia::render('Robots/Cockpit',[
+        'user'=> $request-> user(),
+        'robot'=> $robot,
+        'psw'=> null
+        ]);
+    }
+    public function resetPsw(Robot $robot){
+        $psw = bin2hex(random_bytes(10));
+        $data['psw'] =  Hash::make($psw);
+        
+        $robot->update($data);
+       
+
+        return Inertia::render('Robots/Cockpit',['robot'=> $robot,'user'=> $robot->user(),'psw' => $psw]);
+    }
+
+    public function delete(Robot $robot){
+        $robot->delete();
+        return redirect()->route('robots.index');
+    }
     public function login(Request $Request){
         $data = $Request -> validate([
             'robot_id' => ['required','string'],

@@ -7,6 +7,8 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import { Bot } from 'lucide-react';
+import { ButtonGroup } from '@/components/ui/button-group';
 
 interface Robot{
     id:number,
@@ -33,6 +35,7 @@ export default function Index({robots,user}:PageProps) {
         <Card key={robot.id} className='m-4'>
             
             <CardHeader>
+                <Bot></Bot>
                 <CardTitle>{robot.nam}</CardTitle>
                 <CardDescription>{"robot_"+robot.id}</CardDescription>
                 <CardAction>
@@ -41,7 +44,7 @@ export default function Index({robots,user}:PageProps) {
 
             </CardHeader>
             <CardContent>
-                Das ist ein Roboter mit der Beschreibung: {robot.bez}
+                {robot.bez}
             </CardContent>
             
         </Card>
@@ -53,15 +56,18 @@ export default function Index({robots,user}:PageProps) {
            
             <div className=" gap-4 overflow-x-auto rounded-xl p-4">
                 
+                
                 <ScrollArea>
-                    <div className=" min-h-[100vh] rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border grid grid-cols-3">
+                    <div className="  p-4 m-4 min-h-[100vh] rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border justify-end">
+                        <ButtonGroup className='justify-end p-2'> <Button className='justify-end'onClick={() => router.get(route('robots.create'))} > Register Robot </Button> </ButtonGroup>
+                        
+                        <div className=" rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border grid grid-cols-3">
+                        
                         {items}
+                    </div>
                     </div>
                 </ScrollArea>
                 
-            </div>
-            <div className='m-4'>
-                <Link href={route('robots.create')}> <Button> Register Robot </Button> </Link>
             </div>
             
         </>

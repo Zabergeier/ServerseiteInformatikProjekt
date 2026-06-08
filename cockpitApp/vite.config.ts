@@ -24,13 +24,5 @@ export default defineConfig({
         }),
         tailwindcss(),
     ],
-    server: {
-        host: true,        // entspricht 0.0.0.0
-        port: 8000,
-        strictPort: true,
-        hmr: {
-            host: '192.168.178.115', // deine LAN-IP (wichtig für Geräte im LAN)
-            port: 8000,
-        },
-    },
+    
 });
