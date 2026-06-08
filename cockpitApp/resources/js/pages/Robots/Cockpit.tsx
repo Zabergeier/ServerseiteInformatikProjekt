@@ -112,12 +112,12 @@ export default function Index({user,robot,psw}:PageProps) {
         console.log(robot.id);
         console.log(user.id);
         
-        const topic = "user/" + user.id + "/robot/" + robot.id ;
+        const topic = "/user/" + user.id + "/roboter/" + robot.id +"/drive";
         
         
         const payload = JSON.stringify({motorRight:mRight , motorLeft:mLeft});
         const qos = 0;
-        client?.publish(topic,payload,{qos},(error)=>{console.log(error?.message)});   
+        client?.publish(topic,payload,{qos},(error)=>{console.log(error?.message);console.log("error");});
     }
 
     

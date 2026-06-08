@@ -34,6 +34,7 @@ import { useInitials } from '@/hooks/use-initials';
 import { cn, toUrl } from '@/lib/utils';
 import { dashboard } from '@/routes';
 import type { BreadcrumbItem, NavItem } from '@/types';
+import { route } from 'ziggy-js';
 
 type Props = {
     breadcrumbs?: BreadcrumbItem[];
@@ -42,13 +43,13 @@ type Props = {
 const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
-        href: dashboard(),
+        href: route('robots.index'),
         icon: LayoutGrid,
     },
 ];
 
 const rightNavItems: NavItem[] = [
-    {
+    /*{
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
         icon: Folder,
@@ -57,7 +58,7 @@ const rightNavItems: NavItem[] = [
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
         icon: BookOpen,
-    },
+    },*/
 ];
 
 const activeItemStyles =

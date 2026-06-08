@@ -19,20 +19,16 @@ import { route } from 'ziggy-js';
 
 
 const mainNavItems: NavItem[] = [
+    
     {
         title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'My Robots',
         href: route('robots.index'),
-        icon: Video,
+        icon: LayoutGrid,
     },
 ];
 
 const footerNavItems: NavItem[] = [
-    {
+    /*{
         title: 'Repository',
         href: 'https://github.com/laravel/react-starter-kit',
         icon: FolderGit2,
@@ -41,7 +37,7 @@ const footerNavItems: NavItem[] = [
         title: 'Documentation',
         href: 'https://laravel.com/docs/starter-kits#react',
         icon: BookOpen,
-    },
+    },*/
 ];
 
 export function AppSidebar() {
@@ -51,7 +47,7 @@ export function AppSidebar() {
                 <SidebarMenu>
                     <SidebarMenuItem>
                         <SidebarMenuButton size="lg" asChild>
-                            <Link href={dashboard()} prefetch>
+                            <Link href={route('robots.index')} prefetch>
                                 <AppLogo />
                             </Link>
                         </SidebarMenuButton>
