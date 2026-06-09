@@ -6,7 +6,8 @@ RUN npm install && npm run build
 FROM php:8.5-fpm AS fpm
 RUN apt-get update && apt-get install -y \
     git zip unzip curl libpng-dev libzip-dev zlib1g-dev libjpeg-dev libfreetype6-dev libonig-dev \
-    && docker-php-ext-install exif gd zip pdo_mysql mbstring
+    && docker-php-ext-install exif gd zip pdo_mysql mbstring  \ 
+    pdo_mysql pdo_pgsql pgsql
 
 WORKDIR /var/www/app
 COPY . .
