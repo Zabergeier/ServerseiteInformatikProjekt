@@ -31,6 +31,6 @@ jobs:
           context: ./cockpitApp
           push: true
           tags: ghcr.io/nginxfrontend:latest
-          file: ./cockpitApp/docker/production/nginx/Dockerfile
+          file: ./cockpitApp/docker/k3s/Dockerfile
     
   
