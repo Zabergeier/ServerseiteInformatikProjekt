@@ -8,7 +8,21 @@ Ein kleines Webinterface mit welchem man einen Roboter steuern kann. Dieser hat 
 
 - System/Gesamtarchitektur
 
+1 Datenbank
+1 Webserver
+1 Statischen Webserver
+1 Mqttbroker
+1 Mainprozessor(STM32)
+1 Coprozessor(ESP-32 C3 super mini)
+
+Verwendete IDEs:
+
+Visual Studio Code
+    -> PlatformIO
+LENS
+
 - Datenbankstruktur
+USER 1 -> N ROBOTER
 
 - Cloudarchitektur
 
