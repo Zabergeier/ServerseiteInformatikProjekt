@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/button-group"
 import { ArrowLeftIcon } from 'lucide-react';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {bindKey} from '@rwh/keystrokes';
 
 
 interface Robot{
@@ -44,15 +45,15 @@ interface PageProps{
 }
 
 interface Motor{
-    rightMotor: number
-    leftMotor: number
+    mLeft: number
+    mRight: number
 }
 
 
 
 export default function Index({user,robot,psw}:PageProps) {
     const [token,setToken] = useState<string | undefined>(undefined);
-    const [client,setClient] = useState<MqttClient | null>(null);
+    const clientRef= useRef<MqttClient | null>(null);
     const [mRight,setmRight] = useState<number>(0);
     const [mLeft,setmLeft] = useState<number>(0);
     
@@ -63,59 +64,6 @@ export default function Index({user,robot,psw}:PageProps) {
 
 
     
-    window.addEventListener('keydown',(e:KeyboardEvent)=>{
-        let speed = 0;
-        let steering = 0;
-        if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W'){
-            speed = 100;
-        }else if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S'){
-            speed = -100;
-        }else if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A'){
-            steering = -100;
-        }else if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D'){
-            steering = 100;
-        }
-        
-        let motorRight = speed + steering;
-        let motorLeft = speed - steering;
-
-        if(motorRight > 100) motorRight = 100;
-        if(motorRight < -100) motorRight = -100;
-        if(motorLeft > 100) motorLeft = 100;
-        if(motorLeft < -100) motorLeft = -100; 
-
-        if(motorRight == mRight && motorLeft == mLeft) return;
-        setmRight(motorRight);
-        setmLeft(motorLeft);
-        publishData();
-    });
-
-    window.addEventListener('keyup',(e:KeyboardEvent)=>{
-        let speed = 0;
-        let steering = 0;
-        if(e.key === 'ArrowUp' || e.key === 'w' || e.key === 'W'){
-            speed = 100;
-        }else if(e.key === 'ArrowDown' || e.key === 's' || e.key === 'S'){
-            speed = -100;
-        }else if(e.key === 'ArrowLeft' || e.key === 'a' || e.key === 'A'){
-            steering = -100;
-        }else if(e.key === 'ArrowRight' || e.key === 'd' || e.key === 'D'){
-            steering = 100;
-        }
-        
-        let motorRight = speed + steering;
-        let motorLeft = speed - steering;
-
-        if(motorRight > 100) motorRight = 100;
-        if(motorRight < -100) motorRight = -100;
-        if(motorLeft > 100) motorLeft = 100;
-        if(motorLeft < -100) motorLeft = -100;
-
-        if(motorRight == mRight && motorLeft == mLeft) return;
-        setmRight(motorRight);
-        setmLeft(motorLeft);
-        publishData();
-    });
     
 
 
@@ -183,21 +131,33 @@ export default function Index({user,robot,psw}:PageProps) {
         client?.once("connect",()=>toast("Client successfull connected"));
         client?.once("error",(err)=>{console.log('Connected Client not success');console.log(err.message);});
 
-        setClient(client);
+        clientRef.current = client;
     }
 
 
 
-    function publishData(){
-        console.log(robot.id);
-        console.log(user.id);
-        
+    function publishDataNeu({mLeft, mRight}:Motor){
+
         const topic = "/user/" + user.id + "/roboter/" + robot.id +"/drive";
         
-        
+        console.log(mLeft);
+        console.log(mRight);
+
         const payload = JSON.stringify({motorRight:mRight , motorLeft:mLeft});
         const qos = 0;
-        client?.publish(topic,payload,{qos},(error)=>{console.log(error?.message);console.log("error");});
+        clientRef.current?.publish(topic,payload,{qos},(error)=>{console.log(error?.message);console.log("error");});
+    }
+    //Veraltet
+    function publishData(){
+
+        const topic = "/user/" + user.id + "/roboter/" + robot.id +"/drive";
+        
+        console.log(mLeft);
+        console.log(mRight);
+
+        const payload = JSON.stringify({motorRight:mRight , motorLeft:mLeft});
+        const qos = 0;
+        clientRef.current?.publish(topic,payload,{qos},(error)=>{console.log(error?.message);console.log("error");});
     }
 
     
@@ -206,7 +166,27 @@ export default function Index({user,robot,psw}:PageProps) {
         
 
         issueToken().then((t)=>{setToken(t);loadClient(t)});
-        
+
+        bindKey('w',{
+            onPressed:() => {publishDataNeu({mLeft:100,mRight:100});},
+
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
+
+        bindKey('s',{
+            onPressed:() => {publishDataNeu({mLeft:-100,mRight:-100});},
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
+
+        bindKey('a',{
+            onPressed:() => {publishDataNeu({mLeft:100,mRight:0});},
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
+
+        bindKey('d',{
+            onPressed:() =>{publishDataNeu({mLeft:0,mRight:100});},
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
 
     },[])
     
