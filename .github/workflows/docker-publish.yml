@@ -30,7 +30,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/nginxServer:latest
+          tags: ghcr.io/nginxfrontend:latest
           file: ./cockpitApp/docker/production/nginx/Dockerfile
     
   
