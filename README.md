@@ -23,6 +23,11 @@ LENS
 
 - Datenbankstruktur
 USER 1 -> N ROBOTER
+Id-> PS     Id -> PS
+Name        Nam -> Name
+E-Mail      Pas -> Passwort (gehashed)
+Passwort    Bez -> Bezeichnung
+            UserId -> Fremdschlüssel
 
 - Cloudarchitektur
 
