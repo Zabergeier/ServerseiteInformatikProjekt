@@ -28,7 +28,7 @@ jobs:
       - name: Build & Push
         uses: docker/build-push-action@v5
         with:
-          context: .
+          context: ./cockpitApp
           push: true
           tags: ghcr.io/nginxfrontend:latest
           file: ./cockpitApp/docker/production/nginx/Dockerfile
