@@ -1,8 +1,7 @@
 FROM node:20-alpine AS node_build
 WORKDIR /app
 COPY . .
-RUN npm install -g pnpm
-RUN pnpm install && pnpm run build
+RUN npm install && npm run vite:build
 
 FROM php:8.1-fpm AS fpm
 RUN apt-get update && apt-get install -y \
