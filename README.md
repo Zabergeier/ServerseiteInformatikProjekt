@@ -30,8 +30,10 @@ Passwort    Bez -> Bezeichnung
             UserId -> Fremdschlüssel
 
 - Cloudarchitektur
+Zu Komplex
 
 - Hardwarearchitektur
+Auch zu komplex
 
 MQTT Topic Struktur:
 
@@ -42,7 +44,7 @@ MQTT Topic Struktur:
     leftMotor: Speed
 }
 
-
+Mit JWT-Authentification realisiert
 ------------
 
 <h2>Systemarchitektur</h2>
