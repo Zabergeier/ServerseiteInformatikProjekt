@@ -36,6 +36,7 @@ jobs:
           push: true
           tags: ghcr.io/zabergeier/php-fpm:latest
           file: ./cockpitApp/docker/k3s/Dockerfile
+          target: production 
 
       - name: Build & Push Nginx
         uses: docker/build-push-action@v5
@@ -44,7 +45,6 @@ jobs:
           push: true
           tags: ghcr.io/zabergeier/nginx-k3s:latest
           file: ./cockpitApp/docker/production/nginx/Dockerfile
-          target: production 
 
       - name: Build & Push PHP
         uses: docker/build-push-action@v5
