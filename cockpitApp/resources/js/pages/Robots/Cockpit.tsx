@@ -60,7 +60,7 @@ export default function Index({user,robot,psw}:PageProps) {
     
     
 
-    const emqx_url = "wss://"+String(import.meta.env.VITE_MQTT_URL)+ ":8084/mqtt";
+    const emqx_url = "wss://h190f11f.ala.dedicated.aws.emqxcloud.com:8084/mqtt";
 
 
     

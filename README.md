@@ -33,7 +33,15 @@ Passwort    Bez -> Bezeichnung
 Zu Komplex
 
 - Hardwarearchitektur
-Auch zu komplex
+<h2>Verbindung ESP to MQTT Broker</h2>
+
+
+
+<h2>Verbindung ESP zu STM</h2>
+![alt text](image.png)
+
+<h2>Verbindung STM zu Motordriver </h2>
+
 
 MQTT Topic Struktur:
 
@@ -46,6 +54,7 @@ MQTT Topic Struktur:
 
 Mit JWT-Authentification realisiert
 ------------
+
 
 <h2>Systemarchitektur</h2>
 
