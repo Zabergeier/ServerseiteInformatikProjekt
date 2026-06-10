@@ -29,13 +29,29 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Build & Push
+      - name: Build & Push Combiimage
         uses: docker/build-push-action@v5
         with:
           context: ./cockpitApp
           push: true
           tags: ghcr.io/zabergeier/php-fpm:latest
           file: ./cockpitApp/docker/k3s/Dockerfile
+
+      - name: Build & Push Nginx
+        uses: docker/build-push-action@v5
+        with:
+          context: ./cockpitApp
+          push: true
+          tags: ghcr.io/zabergeier/nginx-k3s:latest
+          file: ./cockpitApp/docker/production/nginx/Dockerfile
+
+      - name: Build & Push PHP
+        uses: docker/build-push-action@v5
+        with:
+          context: ./cockpitApp
+          push: true
+          tags: ghcr.io/zabergeier/php-fpm-k3s:latest
+          file: ./cockpitApp/docker/common/php-fpm/Dockerfile
           
     
   

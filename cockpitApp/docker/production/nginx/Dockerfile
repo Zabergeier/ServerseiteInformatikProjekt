@@ -10,12 +10,10 @@ WORKDIR /var/www
 # Copy Laravel application code
 COPY . /var/www
 
-RUN npm install -g pnpm
-
-COPY package.json pnpm-lock.yaml ./
+COPY package.json package-lock.json ./
 
 # Install Node.js dependencies and build assets
-RUN pnpm install && pnpm run build
+RUN npm install && npm run build
 
 # Stage 2: Nginx production image
 FROM nginx:alpine
