@@ -1,0 +1,122 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: laravel
+  labels:
+    app: laravel
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: laravel
+  template:
+    metadata:
+      labels:
+        app: laravel
+    spec:
+      initContainers:
+        - name: copy-build-assets
+          image: ghcr.io/zabergeier/nginx-k3s:latest
+          command:
+            - sh
+            - -c
+            - |
+              set -e
+              echo "Copying Vite assets from image -> PVC..."
+              test -f /var/www/public/build/manifest.json
+              cp -r /var/www/public/build/. /assets/
+              echo "Done. PVC content:"
+              ls -la /assets/
+          volumeMounts:
+            - name: laravel-public-assets
+              mountPath: /assets
+
+      containers:
+        - name: php-fpm
+          image: ghcr.io/zabergeier/php-fpm-k3s:latest
+          imagePullPolicy: Always
+          envFrom:
+            - secretRef:
+                name: app-env
+          ports:
+            - containerPort: 9000
+          volumeMounts:
+            - name: laravel-storage
+              mountPath: /var/www/storage
+            - name: laravel-public-assets
+              mountPath: /var/www/public/build
+
+        - name: nginx
+          image: ghcr.io/zabergeier/nginx-k3s:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          volumeMounts:
+            - name: laravel-storage
+              mountPath: /var/www/storage
+              readOnly: true
+            - name: laravel-public-assets
+              mountPath: /var/www/public/build
+              readOnly: true
+
+      volumes:
+        - name: laravel-storage
+          persistentVolumeClaim:
+            claimName: laravel-storage-pvc
+        - name: laravel-public-assets
+          persistentVolumeClaim:
+            claimName: laravel-public-assets-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: laravel-storage-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: laravel-public-assets-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 2Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: laravel
+spec:
+  selector:
+    app: laravel
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+  type: ClusterIP
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: laravel
+spec:
+  rules:
+    - host: 
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: laravel
+                port:
+                  number: 80

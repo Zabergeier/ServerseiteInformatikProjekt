@@ -58,3 +58,8 @@ Mit JWT-Authentification realisiert
 
 <h2>Systemarchitektur</h2>
 
+
+
+<h2> Props an die KI </h2>
+-> Debuggen
+-> Kubernetes Manifest von Docker Compose
