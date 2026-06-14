@@ -144,7 +144,7 @@ export default function Index({user,robot,psw}:PageProps) {
         console.log(mRight);
 
         const payload = JSON.stringify({motorRight:mRight , motorLeft:mLeft});
-        const qos = 0;
+        const qos = 1;
         clientRef.current?.publish(topic,payload,{qos},(error)=>{console.log(error?.message);console.log("error");});
     }
     //Veraltet
