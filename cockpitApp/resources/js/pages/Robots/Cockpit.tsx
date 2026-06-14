@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/button-group"
 import { ArrowLeftIcon } from 'lucide-react';
 import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import {bindKey} from '@rwh/keystrokes';
+import {bindKey, bindKeyCombo} from '@rwh/keystrokes';
 
 
 interface Robot{
@@ -187,6 +187,23 @@ export default function Index({user,robot,psw}:PageProps) {
             onPressed:() =>{publishDataNeu({mLeft:0,mRight:100});},
             onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
         });
+
+        bindKeyCombo('w + a',{
+            onPressed:() =>{publishDataNeu({mLeft:50,mRight:100});},
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
+
+        bindKeyCombo('w + d',{
+            onPressed:() =>{publishDataNeu({mLeft:100,mRight:50});},
+            onReleased:() => {publishDataNeu({mLeft:0,mRight:0});}
+        });
+
+        bindKeyCombo('r > w',{
+            onPressed:() =>{publishDataNeu({mLeft:200,mRight:200});},
+            onReleased:() => {publishDataNeu({mLeft:10,mRight:10});}
+        });
+
+        
 
     },[])
     
