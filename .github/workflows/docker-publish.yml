@@ -28,7 +28,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          
+
       - name: Build & Push Nginx
         uses: docker/build-push-action@v5
         with:
@@ -44,7 +44,8 @@ jobs:
           push: true
           tags: ghcr.io/zabergeier/php-fpm-k3s:latest
           file: ./cockpitApp/docker/common/php-fpm/Dockerfile
-          target: production 
+          target: production
+      
           
     
   

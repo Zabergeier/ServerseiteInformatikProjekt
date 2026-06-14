@@ -1,0 +1,37 @@
+
+
+emqx-enterprise:
+  replicaCount: 1
+
+
+
+  recreatePods: true
+  ## Vollständige JWT-Konfiguration in values.yaml
+  env:
+    - name: EMQX_AUTHENTICATION__1__ENABLE
+      value: "true"
+    - name: EMQX_AUTHENTICATION__1__MECHANISM
+      value: "jwt"
+    - name: EMQX_AUTHENTICATION__1__FROM
+      value: "username"
+    - name: EMQX_AUTHENTICATION__1__ALGORITHM
+      value: "hmac-based"
+    - name: EMQX_AUTHENTICATION__1__SECRET
+      valueFrom:
+        secretKeyRef:
+          name: app-env
+          key: MQTT_SECRET
+    - name: EMQX_AUTHENTICATION__1__SECRET_BASE64_ENCODED
+      value: "false"
+    - name: EMQX_AUTHENTICATION__1__USE_JWKS
+      value: "false"
+
+  emqxConfig:
+    EMQX_LISTENERS__WS__DEFAULT__BIND: "0.0.0.0:8083"
+    EMQX_LISTENERS__WS__DEFAULT__MAX_CONNECTIONS: "1024000"
+    EMQX_LISTENERS__WS__DEFAULT__WEBSOCKET__MQTT_PATH: "/mqtt"
+
+  service:
+    type: LoadBalancer
+    ws: 8083
+    mqtt: 1883
